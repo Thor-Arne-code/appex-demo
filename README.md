@@ -6,3 +6,11 @@
 > - Data som lagres skal være på minst to nivå (parent-child), f.eks ordre->ordrelinjer, firma->ansatte, person->adresser eller tilsvarende.
 > - Teknologi velger du selv, men sett opp en readme-fil som viser hvordan løsningen startes (eller legg den ut på en hostingtjeneste et sted).
 > - Gi oss tilgang til et Git-repository med koden (eller la det ligge public).
+
+----
+
+The InnoDB storage engine has an internal 6-byte row ID per table, so there are a 
+maximum number of rows equal to 2^48 or 281,474,976,710,656.
+
+
+
