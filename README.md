@@ -9,6 +9,10 @@
 
 ----
 
+## Løsning
+Jeg har valgt en leverandør og kontakt løsning.
+Dette er et realtivt enkelt prosjekt, men burde være nok til å vise databasedesign og implentasjon av front-end.
+
 ## Platform
 Jeg har valgt database MySQL 8 og RAD Studio 11 (Object Pascal) da dette er verktøy jeg allerede har lisens på og som tillater rask utvikling.
 
