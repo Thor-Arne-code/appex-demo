@@ -25,7 +25,7 @@ For å hente poststed ut fra postnummer benyttes ```https://webapi.no/api/v1/zip
 ## Forutsetninger
 For å starte applikasonen må MySQL kjøre på maskinen, og ha relevant skjema importert og bruker opprettet. [SQL skript](.database/appex-demo.sql) for å importere database oppsett.
 
-Bruker må hete ```Demo``` og ha passord ```appex```.
+Bruker må hete ```Demo``` og ha passord ```appex```, og ha alle rettigheter til ```appexdemo``` skjema.
 
 ### Starte applikasjonen
 Den kjørbare applikasjonen, [Windows 32-bit](./Win32/Release), er inkludert i GitHub repo.
