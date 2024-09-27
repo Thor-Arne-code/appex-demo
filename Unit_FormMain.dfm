@@ -2,8 +2,8 @@
   Left = 0
   Top = 0
   Caption = 'Appex demo'
-  ClientHeight = 1004
-  ClientWidth = 1443
+  ClientHeight = 816
+  ClientWidth = 1215
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,29 +14,26 @@
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 1443
+    Width = 1215
     Height = 41
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 618
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 985
-    Width = 1443
+    Top = 797
+    Width = 1215
     Height = 19
     Panels = <>
-    ExplicitTop = 405
-    ExplicitWidth = 618
+    ExplicitTop = 581
   end
   object Panel2: TPanel
     Left = 0
     Top = 41
-    Width = 1443
+    Width = 1215
     Height = 304
     Align = alTop
     TabOrder = 2
-    ExplicitWidth = 618
     object Label1: TLabel
       Left = 16
       Top = 8
@@ -237,32 +234,37 @@
       DataSource = DataSource_Levrandør
       TabOrder = 9
     end
+    object DBLookupComboBox3: TDBLookupComboBox
+      Left = 816
+      Top = 248
+      Width = 145
+      Height = 23
+      TabOrder = 10
+    end
   end
   object Panel3: TPanel
     Left = 0
     Top = 345
-    Width = 1443
-    Height = 640
+    Width = 1215
+    Height = 452
     Align = alClient
     TabOrder = 3
-    ExplicitWidth = 618
-    ExplicitHeight = 60
+    ExplicitHeight = 236
     object DBNavigator1: TDBNavigator
       Left = 1
-      Top = 614
-      Width = 1441
+      Top = 426
+      Width = 1213
       Height = 25
       DataSource = DataSource_Levrandør
       Align = alBottom
       TabOrder = 0
-      ExplicitTop = 34
-      ExplicitWidth = 616
+      ExplicitTop = 210
     end
     object DBGrid1: TDBGrid
       Left = 1
       Top = 1
-      Width = 1441
-      Height = 613
+      Width = 1213
+      Height = 425
       Align = alClient
       DataSource = DataSource_Kontakt
       TabOrder = 1
@@ -271,6 +273,7 @@
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnDrawColumnCell = DBGrid1DrawColumnCell
       Columns = <
         item
           Expanded = False
@@ -284,25 +287,32 @@
         end
         item
           Expanded = False
+          FieldName = 'Rel_Roller'
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'Epost'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Segoe UI'
-          Font.Style = []
           Width = 480
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Telefon'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -12
-          Font.Name = 'Segoe UI'
-          Font.Style = []
           Visible = True
         end>
+    end
+    object DBLookupComboBox1: TDBLookupComboBox
+      Left = 864
+      Top = 208
+      Width = 145
+      Height = 23
+      DataField = 'Rel_Roller'
+      DataSource = DataSource_Kontakt
+      KeyField = 'ID_Roller'
+      ListField = 'Rolle'
+      ListSource = DataSource_Roller
+      TabOrder = 2
     end
   end
   object MySQLDatabase1: TMySQLDatabase
@@ -321,44 +331,103 @@
       'DatabaseName=appexdemo')
     SSLProperties.TLSVersion = tlsAuto
     DatasetOptions = []
-    Left = 96
-    Top = 120
+    Left = 152
+    Top = 36
   end
   object MySQLTable_Leverandør: TMySQLTable
     Database = MySQLDatabase1
     Active = True
     TableName = 'leverandor'
-    Left = 96
-    Top = 208
+    Left = 152
+    Top = 168
   end
   object MySQLTable_Kontakt: TMySQLTable
     Database = MySQLDatabase1
     Active = True
+    FieldDefs = <
+      item
+        Name = 'ID_Kontakt'
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'Rel_Leverandor'
+        Attributes = [faRequired]
+        DataType = ftLargeint
+      end
+      item
+        Name = 'Rel_Roller'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'Fornavn'
+        DataType = ftWideString
+        Size = 45
+      end
+      item
+        Name = 'Etternavn'
+        DataType = ftWideString
+        Size = 45
+      end
+      item
+        Name = 'Epost'
+        DataType = ftWideString
+        Size = 100
+      end
+      item
+        Name = 'Telefon'
+        DataType = ftWideString
+        Size = 14
+      end>
+    IndexDefs = <
+      item
+        Name = 'PRIMARY'
+        Fields = 'ID_Kontakt'
+        Options = [ixPrimary, ixUnique, ixCaseInsensitive]
+      end
+      item
+        Name = 'ID_UNIQUE'
+        Fields = 'ID_Kontakt'
+        Options = [ixUnique, ixCaseInsensitive]
+      end
+      item
+        Name = 'fk_Kontakt_Leverandor_idx'
+        Fields = 'Rel_Leverandor'
+        Options = [ixCaseInsensitive]
+      end
+      item
+        Name = 'fk_Kontakt_Roller1_idx'
+        Fields = 'Rel_Roller'
+        Options = [ixCaseInsensitive]
+      end>
+    IndexName = 'fk_Kontakt_Leverandor_idx'
+    MasterFields = 'ID_Leverandor'
     MasterSource = DataSource_Levrandør
+    StoreDefs = True
     TableName = 'kontakt'
-    Left = 96
-    Top = 296
+    Left = 152
+    Top = 300
   end
   object MySQLTable_Roller: TMySQLTable
     Database = MySQLDatabase1
     Active = True
     TableName = 'roller'
-    Left = 96
-    Top = 384
+    Left = 152
+    Top = 432
   end
   object DataSource_Levrandør: TDataSource
     DataSet = MySQLTable_Leverandør
-    Left = 320
-    Top = 217
+    Left = 488
+    Top = 182
   end
   object DataSource_Kontakt: TDataSource
     DataSet = MySQLTable_Kontakt
-    Left = 475
-    Top = 456
+    Left = 489
+    Top = 300
   end
   object DataSource_Roller: TDataSource
     DataSet = MySQLTable_Roller
-    Left = 472
-    Top = 572
+    Left = 492
+    Top = 434
   end
 end

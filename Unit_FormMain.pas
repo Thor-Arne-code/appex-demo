@@ -42,6 +42,10 @@ type
     DBEdit9: TDBEdit;
     Label10: TLabel;
     DBEdit10: TDBEdit;
+    DBLookupComboBox3: TDBLookupComboBox;
+    DBLookupComboBox1: TDBLookupComboBox;
+    procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -54,5 +58,24 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TForm2.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
+  DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+  //
+  if (gdFocused in State) then
+    begin
+      if (Column.Field.FieldName = DBLookupComboBox1.DataField) then
+        with DBLookupComboBox1 do
+          begin
+            Left := Rect.Left + DBGrid1.Left + 2;
+            Top := Rect.Top + DBGrid1.Top + 2;
+            Width := Rect.Right - Rect.Left;
+            Width := Rect.Right - Rect.Left;
+            Height := Rect.Bottom - Rect.Top;
+            Visible := True;
+          end;
+    end;
+end;
 
 end.
