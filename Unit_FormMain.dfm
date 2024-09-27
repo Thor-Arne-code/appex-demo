@@ -10,6 +10,7 @@
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  Menu = MainMenu1
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -18,6 +19,21 @@
     Height = 41
     Align = alTop
     TabOrder = 0
+    object Label11: TLabel
+      Left = 584
+      Top = 13
+      Width = 26
+      Height = 15
+      Caption = 'Filter'
+    end
+    object ComboBox1: TComboBox
+      Left = 624
+      Top = 12
+      Width = 145
+      Height = 23
+      TabOrder = 0
+      Text = 'ComboBox1'
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -25,7 +41,6 @@
     Width = 1215
     Height = 19
     Panels = <>
-    ExplicitTop = 581
   end
   object Panel2: TPanel
     Left = 0
@@ -234,13 +249,6 @@
       DataSource = DataSource_Levrandør
       TabOrder = 9
     end
-    object DBLookupComboBox3: TDBLookupComboBox
-      Left = 816
-      Top = 248
-      Width = 145
-      Height = 23
-      TabOrder = 10
-    end
   end
   object Panel3: TPanel
     Left = 0
@@ -249,7 +257,6 @@
     Height = 452
     Align = alClient
     TabOrder = 3
-    ExplicitHeight = 236
     object DBNavigator1: TDBNavigator
       Left = 1
       Top = 426
@@ -258,7 +265,6 @@
       DataSource = DataSource_Levrandør
       Align = alBottom
       TabOrder = 0
-      ExplicitTop = 210
     end
     object DBGrid1: TDBGrid
       Left = 1
@@ -273,32 +279,53 @@
       TitleFont.Height = -12
       TitleFont.Name = 'Segoe UI'
       TitleFont.Style = []
+      OnColExit = DBGrid1ColExit
       OnDrawColumnCell = DBGrid1DrawColumnCell
+      OnKeyPress = DBGrid1KeyPress
       Columns = <
         item
           Expanded = False
+          FieldName = 'ID_Kontakt'
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'Rel_Leverandor'
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'Rel_Roller'
+          Visible = False
+        end
+        item
+          Expanded = False
           FieldName = 'Fornavn'
+          Width = 250
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Etternavn'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'Rel_Roller'
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'Epost'
-          Width = 480
+          Width = 250
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'Telefon'
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Rolle'
+          Width = 150
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'Epost'
+          Width = 400
           Visible = True
         end>
     end
@@ -313,6 +340,7 @@
       ListField = 'Rolle'
       ListSource = DataSource_Roller
       TabOrder = 2
+      Visible = False
     end
   end
   object MySQLDatabase1: TMySQLDatabase
@@ -407,6 +435,49 @@
     TableName = 'kontakt'
     Left = 152
     Top = 300
+    object MySQLTable_KontaktID_Kontakt: TAutoIncField
+      FieldName = 'ID_Kontakt'
+      Origin = 'kontakt.ID_Kontakt'
+    end
+    object MySQLTable_KontaktRel_Leverandor: TLargeintField
+      FieldName = 'Rel_Leverandor'
+      Origin = 'kontakt.Rel_Leverandor'
+      Required = True
+    end
+    object MySQLTable_KontaktRel_Roller: TIntegerField
+      FieldName = 'Rel_Roller'
+      Origin = 'kontakt.Rel_Roller'
+      Required = True
+    end
+    object MySQLTable_KontaktFornavn: TWideStringField
+      FieldName = 'Fornavn'
+      Origin = 'kontakt.Fornavn'
+      Size = 45
+    end
+    object MySQLTable_KontaktEtternavn: TWideStringField
+      FieldName = 'Etternavn'
+      Origin = 'kontakt.Etternavn'
+      Size = 45
+    end
+    object MySQLTable_KontaktEpost: TWideStringField
+      FieldName = 'Epost'
+      Origin = 'kontakt.Epost'
+      Size = 100
+    end
+    object MySQLTable_KontaktTelefon: TWideStringField
+      FieldName = 'Telefon'
+      Origin = 'kontakt.Telefon'
+      Size = 14
+    end
+    object MySQLTable_Kontakt_Rolle: TStringField
+      FieldKind = fkLookup
+      FieldName = 'Rolle'
+      LookupDataSet = MySQLTable_Roller
+      LookupKeyFields = 'ID_Roller'
+      LookupResultField = 'Rolle'
+      KeyFields = 'Rel_Roller'
+      Lookup = True
+    end
   end
   object MySQLTable_Roller: TMySQLTable
     Database = MySQLDatabase1
@@ -429,5 +500,33 @@
     DataSet = MySQLTable_Roller
     Left = 492
     Top = 434
+  end
+  object MainMenu1: TMainMenu
+    Left = 600
+    Top = 129
+    object Fil1: TMenuItem
+      Caption = '&Fil'
+      object Avslutt1: TMenuItem
+        AutoHotkeys = maAutomatic
+        Caption = 'Avslutt'
+        OnClick = Avslutt1Click
+      end
+    end
+  end
+  object RESTClient1: TRESTClient
+    Params = <>
+    Left = 384
+    Top = 129
+  end
+  object RESTRequest1: TRESTRequest
+    Client = RESTClient1
+    Params = <>
+    Response = RESTResponse1
+    Left = 504
+    Top = 129
+  end
+  object RESTResponse1: TRESTResponse
+    Left = 632
+    Top = 129
   end
 end

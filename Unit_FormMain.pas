@@ -5,7 +5,9 @@ interface
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Mask,
-  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, mySQLDbTables, Vcl.ComCtrls;
+  Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, mySQLDbTables, Vcl.ComCtrls,
+  Vcl.Menus, REST.Types, REST.Client, Data.Bind.Components,
+  Data.Bind.ObjectScope;
 
 type
   TForm2 = class(TForm)
@@ -42,10 +44,28 @@ type
     DBEdit9: TDBEdit;
     Label10: TLabel;
     DBEdit10: TDBEdit;
-    DBLookupComboBox3: TDBLookupComboBox;
     DBLookupComboBox1: TDBLookupComboBox;
+    MySQLTable_KontaktID_Kontakt: TAutoIncField;
+    MySQLTable_KontaktRel_Leverandor: TLargeintField;
+    MySQLTable_KontaktRel_Roller: TIntegerField;
+    MySQLTable_KontaktFornavn: TWideStringField;
+    MySQLTable_KontaktEtternavn: TWideStringField;
+    MySQLTable_KontaktEpost: TWideStringField;
+    MySQLTable_KontaktTelefon: TWideStringField;
+    MySQLTable_Kontakt_Rolle: TStringField;
+    ComboBox1: TComboBox;
+    Label11: TLabel;
+    MainMenu1: TMainMenu;
+    Fil1: TMenuItem;
+    Avslutt1: TMenuItem;
+    RESTClient1: TRESTClient;
+    RESTRequest1: TRESTRequest;
+    RESTResponse1: TRESTResponse;
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
+    procedure DBGrid1ColExit(Sender: TObject);
+    procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
+    procedure Avslutt1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -59,10 +79,22 @@ implementation
 
 {$R *.dfm}
 
+procedure TForm2.Avslutt1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TForm2.DBGrid1ColExit(Sender: TObject);
+begin
+// Skjule kombo boks når feltet mister fokus
+  if DBGrid1.SelectedField.FieldName = DBLookupComboBox1.DataField then
+    DBLookupComboBox1.Visible := False
+end;
+
 procedure TForm2.DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
   DataCol: Integer; Column: TColumn; State: TGridDrawState);
 begin
-  //
+  // Tegne opp combo boks i stedet for tekst når i fokus
   if (gdFocused in State) then
     begin
       if (Column.Field.FieldName = DBLookupComboBox1.DataField) then
@@ -75,6 +107,18 @@ begin
             Height := Rect.Bottom - Rect.Top;
             Visible := True;
           end;
+    end;
+end;
+
+procedure TForm2.DBGrid1KeyPress(Sender: TObject; var Key: Char);
+begin
+// Sende alle tastetrykk uten om tab til combo boks
+  if (key = Chr(9)) then
+    Exit;
+  if (DBGrid1.SelectedField.FieldName = DBLookupComboBox1.DataField) then
+    begin
+      DBLookupComboBox1.SetFocus;
+      SendMessage(DBLookupComboBox1.Handle, WM_Char, word(Key), 0);
     end;
 end;
 
