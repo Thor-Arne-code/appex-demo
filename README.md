@@ -15,7 +15,12 @@ Dette er et realtivt enkelt prosjekt, men burde være nok til å vise databasede
 
 Det er lagt inn test data fra appex sine nettsider, samt et enkelt fiktivt firma.
 
-### En del av feltene er i blå skrift, dette for å indikere at de kan dobbelklikkes for å aktivere andre funksjoner.
+### Testing
+Applikasjonen benytter enkelt felt i hoved visningen (firma) og database grid (kontakt) for å "show case" de vanligste måtene å vise/redigere data på.
+For hoved visning er det en navigator nederst i hoved vinduet, for kontakt visning benyttes piltaster, tabulator, pgup/pgdn.
+
+Alle felter er redigerbare og uppdateres når rad skifter.
+En del av feltene er i blå skrift, dette for å indikere at de kan dobbelklikkes for å aktivere andre funksjoner.
 
 ## Platform
 Jeg har valgt database MySQL 8 og RAD Studio 11 (Object Pascal) da dette er verktøy jeg allerede har lisens på og som tillater rask utvikling.
