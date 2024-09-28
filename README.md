@@ -13,6 +13,10 @@
 Jeg har valgt en leverandør og kontakt løsning.
 Dette er et realtivt enkelt prosjekt, men burde være nok til å vise databasedesign og implentasjon av front-end.
 
+Det er lagt inn test data fra appex sine nettsider, samt et enkelt fiktivt firma.
+
+### En del av feltene er i blå skrift, dette for å indikere at de kan dobbelklikkes for å aktivere andre funksjoner.
+
 ## Platform
 Jeg har valgt database MySQL 8 og RAD Studio 11 (Object Pascal) da dette er verktøy jeg allerede har lisens på og som tillater rask utvikling.
 
@@ -27,7 +31,7 @@ Det er ingen praktisk begrensing i antall rader i databasen (maks er 2^48 eller 
 For å hente poststed ut fra postnummer benyttes ```https://webapi.no/api/v1/zipcode/####``` som ved endring lagres sammen med data i databasen.
 
 ## Forutsetninger
-For å starte applikasonen må MySQL kjøre på maskinen, og ha relevant skjema importert og bruker opprettet. [SQL skript](.database/appex-demo.sql) for å importere database oppsett.
+For å starte applikasonen må MySQL kjøre på maskinen, og ha relevant skjema importert og bruker opprettet. [SQL skript](./database/appex-demo.sql) for å importere database oppsett.
 
 Bruker må hete ```Demo``` og ha passord ```appex```, og ha alle rettigheter til ```appexdemo``` skjema.
 
