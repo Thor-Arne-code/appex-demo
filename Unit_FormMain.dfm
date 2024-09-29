@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   Caption = 'Appex demo'
-  ClientHeight = 816
+  ClientHeight = 771
   ClientWidth = 1215
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -11,6 +11,7 @@
   Font.Name = 'Segoe UI'
   Font.Style = []
   Menu = MainMenu1
+  Position = poScreenCenter
   TextHeight = 15
   object Panel1: TPanel
     Left = 0
@@ -19,25 +20,10 @@
     Height = 41
     Align = alTop
     TabOrder = 0
-    object Label11: TLabel
-      Left = 584
-      Top = 13
-      Width = 26
-      Height = 15
-      Caption = 'Filter'
-    end
-    object ComboBox1: TComboBox
-      Left = 624
-      Top = 12
-      Width = 145
-      Height = 23
-      TabOrder = 0
-      Text = 'ComboBox1'
-    end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 797
+    Top = 752
     Width = 1215
     Height = 19
     Panels = <>
@@ -238,6 +224,7 @@
       Height = 23
       DataField = 'PostNr'
       DataSource = DataSource_Levrandør
+      MaxLength = 4
       TabOrder = 8
     end
     object DBEdit10: TDBEdit
@@ -254,12 +241,12 @@
     Left = 0
     Top = 345
     Width = 1215
-    Height = 452
+    Height = 407
     Align = alClient
     TabOrder = 3
     object DBNavigator1: TDBNavigator
       Left = 1
-      Top = 426
+      Top = 381
       Width = 1213
       Height = 25
       DataSource = DataSource_Levrandør
@@ -268,9 +255,9 @@
     end
     object DBGrid1: TDBGrid
       Left = 1
-      Top = 1
+      Top = 36
       Width = 1213
-      Height = 425
+      Height = 345
       Align = alClient
       DataSource = DataSource_Kontakt
       TabOrder = 1
@@ -330,8 +317,8 @@
         end>
     end
     object DBLookupComboBox1: TDBLookupComboBox
-      Left = 864
-      Top = 208
+      Left = 624
+      Top = 72
       Width = 145
       Height = 23
       DataField = 'Rel_Roller'
@@ -341,6 +328,29 @@
       ListSource = DataSource_Roller
       TabOrder = 2
       Visible = False
+    end
+    object Panel4: TPanel
+      Left = 1
+      Top = 1
+      Width = 1213
+      Height = 35
+      Align = alTop
+      TabOrder = 3
+      object Label11: TLabel
+        Left = 576
+        Top = 6
+        Width = 26
+        Height = 15
+        Caption = 'Filter'
+      end
+      object ComboBox1: TComboBox
+        Left = 616
+        Top = 5
+        Width = 145
+        Height = 23
+        TabOrder = 0
+        Text = 'ComboBox1'
+      end
     end
   end
   object MySQLDatabase1: TMySQLDatabase
@@ -366,8 +376,63 @@
     Database = MySQLDatabase1
     Active = True
     TableName = 'leverandor'
-    Left = 152
-    Top = 168
+    Left = 230
+    Top = 326
+    object MySQLTable_LeverandørID_Leverandor: TLargeintField
+      FieldName = 'ID_Leverandor'
+      Origin = 'leverandor.ID_Leverandor'
+    end
+    object MySQLTable_LeverandørNavn: TWideStringField
+      FieldName = 'Navn'
+      Origin = 'leverandor.Navn'
+      Required = True
+      Size = 45
+    end
+    object MySQLTable_LeverandørOrgNr: TWideStringField
+      FieldName = 'OrgNr'
+      Origin = 'leverandor.OrgNr'
+      Size = 15
+    end
+    object MySQLTable_LeverandørHjemmeside: TWideStringField
+      FieldName = 'Hjemmeside'
+      Origin = 'leverandor.Hjemmeside'
+      Size = 100
+    end
+    object MySQLTable_LeverandørTlfSentralbord: TWideStringField
+      FieldName = 'TlfSentralbord'
+      Origin = 'leverandor.TlfSentralbord'
+      Size = 14
+    end
+    object MySQLTable_LeverandørEpost: TWideStringField
+      FieldName = 'Epost'
+      Origin = 'leverandor.Epost'
+      Size = 45
+    end
+    object MySQLTable_LeverandørRabatt: TFloatField
+      FieldName = 'Rabatt'
+      Origin = 'leverandor.Rabatt'
+    end
+    object MySQLTable_LeverandørAddresse1: TWideStringField
+      FieldName = 'Addresse1'
+      Origin = 'leverandor.Addresse1'
+      Size = 45
+    end
+    object MySQLTable_LeverandørAdresse2: TWideStringField
+      FieldName = 'Adresse2'
+      Origin = 'leverandor.Adresse2'
+      Size = 45
+    end
+    object MySQLTable_LeverandørPostNr: TWideStringField
+      FieldName = 'PostNr'
+      Origin = 'leverandor.PostNr'
+      EditMask = '0000;1;_'
+      Size = 4
+    end
+    object MySQLTable_LeverandørPostSted: TWideStringField
+      FieldName = 'PostSted'
+      Origin = 'leverandor.PostSted'
+      Size = 45
+    end
   end
   object MySQLTable_Kontakt: TMySQLTable
     Database = MySQLDatabase1
@@ -433,8 +498,8 @@
     MasterSource = DataSource_Levrandør
     StoreDefs = True
     TableName = 'kontakt'
-    Left = 152
-    Top = 300
+    Left = 340
+    Top = 512
     object MySQLTable_KontaktID_Kontakt: TAutoIncField
       FieldName = 'ID_Kontakt'
       Origin = 'kontakt.ID_Kontakt'
@@ -483,23 +548,24 @@
     Database = MySQLDatabase1
     Active = True
     TableName = 'roller'
-    Left = 152
-    Top = 432
+    Left = 351
+    Top = 651
   end
   object DataSource_Levrandør: TDataSource
     DataSet = MySQLTable_Leverandør
-    Left = 488
-    Top = 182
+    OnDataChange = DataSource_LevrandørDataChange
+    Left = 542
+    Top = 324
   end
   object DataSource_Kontakt: TDataSource
     DataSet = MySQLTable_Kontakt
-    Left = 489
-    Top = 300
+    Left = 533
+    Top = 481
   end
   object DataSource_Roller: TDataSource
     DataSet = MySQLTable_Roller
-    Left = 492
-    Top = 434
+    Left = 529
+    Top = 652
   end
   object MainMenu1: TMainMenu
     Left = 600
@@ -513,20 +579,9 @@
       end
     end
   end
-  object RESTClient1: TRESTClient
-    Params = <>
-    Left = 384
-    Top = 129
-  end
-  object RESTRequest1: TRESTRequest
-    Client = RESTClient1
-    Params = <>
-    Response = RESTResponse1
-    Left = 504
-    Top = 129
-  end
-  object RESTResponse1: TRESTResponse
-    Left = 632
-    Top = 129
+  object NetHTTPClient1: TNetHTTPClient
+    UserAgent = 'Embarcadero URI Client/1.0'
+    Left = 696
+    Top = 130
   end
 end
