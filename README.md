@@ -13,6 +13,8 @@
 Jeg har valgt en leverandør og kontakt løsning.
 Dette er et realtivt enkelt prosjekt, men burde være nok til å vise databasedesign og implentasjon av front-end.
 
+Felter i blå farge kan dobbeltklikkes for å åpne asosiert app.
+
 Det er lagt inn test data fra appex sine nettsider, samt et enkelt fiktivt firma.
 
 ### Testing
@@ -39,6 +41,16 @@ For å hente poststed ut fra postnummer benyttes ```https://webapi.no/api/v1/zip
 For å starte applikasonen må MySQL kjøre på maskinen, og ha relevant skjema importert og bruker opprettet. [SQL skript](./database/appex-demo.sql) for å importere database oppsett.
 
 Bruker må hete ```Demo``` og ha passord ```appex```, og ha alle rettigheter til ```appexdemo``` skjema.
+
+### Kompilering
+For å kunne kompilere må man ha installert:
+
+  - RAD Studio (Delphi)
+  - Micoolap Direct Access Component (MySQL DAC)
+
+For å importere og redigere databasen må man ha installert:
+
+  - MySQL Workbench 8
 
 ### Starte applikasjonen
 Den kjørbare applikasjonen, [Windows 32-bit](./Win32/Release), er inkludert i GitHub repo.
