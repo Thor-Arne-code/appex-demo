@@ -3,7 +3,7 @@ unit Unit_FormMain;
 interface
 
 uses
-  System.JSON,
+  System.JSON, ShellAPI,
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Mask,
   Vcl.ExtCtrls, Vcl.DBCtrls, Vcl.Grids, Vcl.DBGrids, mySQLDbTables, Vcl.ComCtrls,
@@ -71,7 +71,7 @@ type
     MySQLTable_LeverandørPostNr: TWideStringField;
     MySQLTable_LeverandørPostSted: TWideStringField;
     Panel4: TPanel;
-    ComboBox1: TComboBox;
+    ComboBox_Filter: TComboBox;
     Label11: TLabel;
     procedure DBGrid1DrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -79,6 +79,11 @@ type
     procedure DBGrid1KeyPress(Sender: TObject; var Key: Char);
     procedure Avslutt1Click(Sender: TObject);
     procedure DataSource_LevrandørDataChange(Sender: TObject; Field: TField);
+    procedure MySQLTable_RollerAfterOpen(DataSet: TDataSet);
+    procedure ComboBox_FilterChange(Sender: TObject);
+    procedure DBEdit3DblClick(Sender: TObject);
+    procedure DBEdit5DblClick(Sender: TObject);
+    procedure DBEdit4DblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -129,6 +134,40 @@ end;
 
 
 
+procedure TForm2.MySQLTable_RollerAfterOpen(DataSet: TDataSet);
+begin
+  // Populere filter combo boks
+  ComboBox_Filter.Items.BeginUpdate;
+  if DataSource_Roller.DataSet.FindFirst then
+    begin
+      ComboBox_Filter.Items.Add(DataSource_Roller.DataSet.FieldByName('Rolle').AsString);
+      while DataSource_Roller.DataSet.FindNext do
+        begin
+          ComboBox_Filter.Items.Add(DataSource_Roller.DataSet.FieldByName('Rolle').AsString);
+        end;
+    end;
+  ComboBox_Filter.Items.EndUpdate;
+end;
+
+
+
+procedure TForm2.ComboBox_FilterChange(Sender: TObject);
+begin
+  // Aktivere/deaktivere filter på rolle feltet
+  if ComboBox_Filter.ItemIndex = 0 then
+    begin
+    DataSource_Kontakt.DataSet.Filter := '';
+    DataSource_Kontakt.DataSet.Filtered := False;
+    end
+  else
+    begin
+      DataSource_Kontakt.DataSet.Filter := 'Rel_Roller = ' + IntToStr(ComboBox_Filter.ItemIndex);
+      DataSource_Kontakt.DataSet.Filtered := True;
+    end;
+end;
+
+
+
 procedure TForm2.DataSource_LevrandørDataChange(Sender: TObject;
   Field: TField);
 // Oppdatere poststed når postnr endres
@@ -136,7 +175,7 @@ var
   s: string;
 begin
    if Field <> nil then // Field må være allokert
-    if Field.Name = 'MySQLTable_LeverandørPostNr' then // Kun prosessere PosrNr
+    if Field.Name = 'MySQLTable_LeverandørPostNr' then // Kun prosessere PostNr
       begin
         s := DataSource_Levrandør.DataSet.FieldByName('PostNr').AsString;
         if Length(s) = 4 then
@@ -145,6 +184,39 @@ begin
               DataSource_Levrandør.DataSet.FieldByName('PostSted').AsString := GetPoststed(s);
           end;
       end;
+end;
+
+
+
+procedure TForm2.DBEdit3DblClick(Sender: TObject);
+var
+  tmp: string;
+begin
+  // Åpne i standard nettleser
+  tmp := 'https://' + DataSource_Levrandør.DataSet.FieldByName('Epost').AsString;
+  ShellExecute(self.WindowHandle,'open',PChar(tmp),nil,nil, SW_SHOWNORMAL);
+end;
+
+
+
+procedure TForm2.DBEdit4DblClick(Sender: TObject);
+var
+  tmp: string;
+begin
+  // Åpne i standard telefon app
+  tmp := 'tel:' + DataSource_Levrandør.DataSet.FieldByName('TlfSentralbord').AsString;
+  ShellExecute(self.WindowHandle,'open',PChar(tmp),nil,nil, SW_SHOWNORMAL);
+end;
+
+
+
+procedure TForm2.DBEdit5DblClick(Sender: TObject);
+var
+  tmp: string;
+begin
+  // Åpne i standard epost
+  tmp := 'mailto:' + DataSource_Levrandør.DataSet.FieldByName('Hjemmeside').AsString;
+  ShellExecute(self.WindowHandle,'open',PChar(tmp),nil,nil, SW_SHOWNORMAL);
 end;
 
 

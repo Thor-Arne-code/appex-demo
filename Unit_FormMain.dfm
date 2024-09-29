@@ -2,7 +2,7 @@
   Left = 0
   Top = 0
   Caption = 'Appex demo'
-  ClientHeight = 771
+  ClientHeight = 700
   ClientWidth = 1215
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -23,10 +23,11 @@
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 752
+    Top = 681
     Width = 1215
     Height = 19
     Panels = <>
+    ExplicitTop = 752
   end
   object Panel2: TPanel
     Left = 0
@@ -147,12 +148,13 @@
       DataField = 'Hjemmeside'
       DataSource = DataSource_Levrandør
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlue
       Font.Height = -12
       Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 2
+      OnDblClick = DBEdit3DblClick
     end
     object DBEdit4: TDBEdit
       Left = 768
@@ -162,12 +164,13 @@
       DataField = 'TlfSentralbord'
       DataSource = DataSource_Levrandør
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlue
       Font.Height = -12
       Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 3
+      OnDblClick = DBEdit4DblClick
     end
     object DBEdit5: TDBEdit
       Left = 768
@@ -177,12 +180,13 @@
       DataField = 'Epost'
       DataSource = DataSource_Levrandør
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
+      Font.Color = clBlue
       Font.Height = -12
       Font.Name = 'Segoe UI'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
       TabOrder = 4
+      OnDblClick = DBEdit5DblClick
     end
     object DBEdit6: TDBEdit
       Left = 1043
@@ -241,23 +245,25 @@
     Left = 0
     Top = 345
     Width = 1215
-    Height = 407
+    Height = 336
     Align = alClient
     TabOrder = 3
+    ExplicitHeight = 407
     object DBNavigator1: TDBNavigator
       Left = 1
-      Top = 381
+      Top = 310
       Width = 1213
       Height = 25
       DataSource = DataSource_Levrandør
       Align = alBottom
       TabOrder = 0
+      ExplicitTop = 381
     end
     object DBGrid1: TDBGrid
       Left = 1
       Top = 36
       Width = 1213
-      Height = 345
+      Height = 274
       Align = alClient
       DataSource = DataSource_Kontakt
       TabOrder = 1
@@ -319,7 +325,7 @@
     object DBLookupComboBox1: TDBLookupComboBox
       Left = 624
       Top = 72
-      Width = 145
+      Width = 200
       Height = 23
       DataField = 'Rel_Roller'
       DataSource = DataSource_Kontakt
@@ -343,13 +349,18 @@
         Height = 15
         Caption = 'Filter'
       end
-      object ComboBox1: TComboBox
+      object ComboBox_Filter: TComboBox
         Left = 616
         Top = 5
         Width = 145
         Height = 23
+        ItemIndex = 0
         TabOrder = 0
-        Text = 'ComboBox1'
+        TabStop = False
+        Text = '(Alle)'
+        OnChange = ComboBox_FilterChange
+        Items.Strings = (
+          '(Alle)')
       end
     end
   end
@@ -376,8 +387,8 @@
     Database = MySQLDatabase1
     Active = True
     TableName = 'leverandor'
-    Left = 230
-    Top = 326
+    Left = 265
+    Top = 169
     object MySQLTable_LeverandørID_Leverandor: TLargeintField
       FieldName = 'ID_Leverandor'
       Origin = 'leverandor.ID_Leverandor'
@@ -498,8 +509,8 @@
     MasterSource = DataSource_Levrandør
     StoreDefs = True
     TableName = 'kontakt'
-    Left = 340
-    Top = 512
+    Left = 265
+    Top = 280
     object MySQLTable_KontaktID_Kontakt: TAutoIncField
       FieldName = 'ID_Kontakt'
       Origin = 'kontakt.ID_Kontakt'
@@ -541,31 +552,50 @@
       LookupKeyFields = 'ID_Roller'
       LookupResultField = 'Rolle'
       KeyFields = 'Rel_Roller'
+      Size = 30
       Lookup = True
     end
   end
   object MySQLTable_Roller: TMySQLTable
     Database = MySQLDatabase1
     Active = True
+    AfterOpen = MySQLTable_RollerAfterOpen
+    FieldDefs = <
+      item
+        Name = 'ID_Roller'
+        DataType = ftAutoInc
+      end
+      item
+        Name = 'Rolle'
+        DataType = ftWideString
+        Size = 45
+      end>
+    IndexDefs = <
+      item
+        Name = 'PRIMARY'
+        Fields = 'ID_Roller'
+        Options = [ixPrimary, ixUnique, ixCaseInsensitive]
+      end>
+    StoreDefs = True
     TableName = 'roller'
     Left = 351
-    Top = 651
+    Top = 681
   end
   object DataSource_Levrandør: TDataSource
     DataSet = MySQLTable_Leverandør
     OnDataChange = DataSource_LevrandørDataChange
-    Left = 542
-    Top = 324
+    Left = 549
+    Top = 134
   end
   object DataSource_Kontakt: TDataSource
     DataSet = MySQLTable_Kontakt
-    Left = 533
-    Top = 481
+    Left = 808
+    Top = 586
   end
   object DataSource_Roller: TDataSource
     DataSet = MySQLTable_Roller
-    Left = 529
-    Top = 652
+    Left = 810
+    Top = 706
   end
   object MainMenu1: TMainMenu
     Left = 600
